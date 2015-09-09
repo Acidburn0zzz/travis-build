@@ -19,7 +19,7 @@ module Travis
             sh.cmd "wget http://dev.mysql.com/get/#{config_file}"
             sh.cmd "dpkg -i #{config_file}", sudo: true
             sh.cmd "apt-get update -qq", assert: false, sudo: true
-            sh.cmd "dpkg-reconfigure "
+            sh.cmd "sudo dpkg-reconfigure"
             sh.cmd "apt-get install -o Dpkg::Options::='--force-confnew' mysql-server", sudo: true, echo: true, timing: true
             sh.echo "Starting MySQL v#{mysql_version}", ansi: :yellow
             sh.cmd "service mysql start", sudo: true, assert: false, echo: true, timing: true
