@@ -7,10 +7,7 @@ module Travis
       class Mysql < Base
         SUPER_USER_SAFE = true
 
-        MARIADB_GPG_KEY = '0xcbcb082a1bb943db'
-        MARIADB_MIRROR  = 'nyc2.mirrors.digitalocean.com'
-
-        MYSQL_APT_CONFIG_VERSION = '0.3.5'
+        MYSQL_APT_CONFIG_VERSION = '0.3.7'
 
         def after_prepare
           sh.fold 'mysql' do
@@ -19,7 +16,7 @@ module Travis
             sh.cmd "wget http://dev.mysql.com/get/#{config_file}"
             sh.cmd "dpkg -i #{config_file}", sudo: true
             sh.cmd "apt-get update -qq", assert: false, sudo: true
-            sh.cmd "sudo dpkg-reconfigure mysql-apt-config"
+            sh.cmd "dpkg-reconfigure mysql-apt-config", sudo: true
             sh.cmd "apt-get install -o Dpkg::Options::='--force-confnew' #{components.join(' ')}", sudo: true, echo: true, timing: true
             sh.echo "Starting MySQL v#{mysql_version}", ansi: :yellow
             sh.cmd "service mysql start", sudo: true, assert: false, echo: true, timing: true
