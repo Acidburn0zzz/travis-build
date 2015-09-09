@@ -20,7 +20,7 @@ module Travis
             sh.cmd "dpkg -i #{config_file}", sudo: true
             sh.cmd "apt-get update -qq", assert: false, sudo: true
             sh.cmd "sudo dpkg-reconfigure mysql-apt-config"
-            sh.cmd "apt-get install -o Dpkg::Options::='--force-confnew' #{components}", sudo: true, echo: true, timing: true
+            sh.cmd "apt-get install -o Dpkg::Options::='--force-confnew' #{components.join(' ')}", sudo: true, echo: true, timing: true
             sh.echo "Starting MySQL v#{mysql_version}", ansi: :yellow
             sh.cmd "service mysql start", sudo: true, assert: false, echo: true, timing: true
             sh.cmd "mysql --version", assert: false, echo: true
