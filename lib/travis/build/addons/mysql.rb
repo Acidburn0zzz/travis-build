@@ -33,7 +33,7 @@ module Travis
         end
 
         def config_file
-          "mysql-apt-config_#{MYSQL_APT_CONFIG_VERSION}-1ubuntu$(lsb_release -cs)_all.deb"
+          "mysql-apt-config_#{MYSQL_APT_CONFIG_VERSION}-1ubuntu$(lsb_release -rs)_all.deb"
         end
       end
     end
