@@ -19,8 +19,8 @@ module Travis
             sh.cmd "wget http://dev.mysql.com/get/#{config_file}"
             sh.cmd "dpkg -i #{config_file}", sudo: true
             sh.cmd "apt-get update -qq", assert: false, sudo: true
-            sh.cmd "sudo dpkg-reconfigure"
-            sh.cmd "apt-get install -o Dpkg::Options::='--force-confnew' mysql-server", sudo: true, echo: true, timing: true
+            sh.cmd "sudo dpkg-reconfigure mysql-apt-config"
+            sh.cmd "apt-get install -o Dpkg::Options::='--force-confnew' #{components}", sudo: true, echo: true, timing: true
             sh.echo "Starting MySQL v#{mysql_version}", ansi: :yellow
             sh.cmd "service mysql start", sudo: true, assert: false, echo: true, timing: true
             sh.cmd "mysql --version", assert: false, echo: true
@@ -34,6 +34,18 @@ module Travis
 
         def config_file
           "mysql-apt-config_#{MYSQL_APT_CONFIG_VERSION}-1ubuntu$(lsb_release -rs)_all.deb"
+        end
+
+        def components
+          %w(
+            mysql-common
+            mysql-community-client
+            mysql-client
+            libmysqlclient18
+            libmysqlclient-dev
+            mysql-community-server
+            mysql-server
+          )
         end
       end
     end
